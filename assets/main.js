@@ -207,7 +207,13 @@ async function init() {
   favBtn.addEventListener("click", toggleFavSection);
 }
 
-init();
+//init();
+
+//inicio prueba
+fetch("https://prueba-backend-node-zvua-dev.fl0.io/api/noticias")
+  .then((data) => data.json)
+  .then((datajson) => console.log(datajson));
+//fin prueba
 
 /*
 - noticias favoritas (con localstorage).
