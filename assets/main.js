@@ -212,7 +212,7 @@ async function init() {
 //inicio prueba
 fetch("https://prueba-backend-node-zvua-dev.fl0.io/api/noticias")
   .then((data) => data.json)
-  .then((datajson) => console.log(datajson));
+  .then((datajson) => console.log(datajson.json));
 //fin prueba
 
 /*
