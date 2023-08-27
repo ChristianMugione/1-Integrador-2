@@ -1,0 +1,260 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  text-decoration: none;
+  list-style: none;
+}
+
+body {
+  font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
+  font-size: 14px;
+}
+
+/* .slide-right-anim {
+  animation: slide-right 0.5s ease-out;
+  -webkit-animation: slide-right 0.5s ease-out;
+}
+
+.slide-right-out {
+  animation: slide-right 0.5s ease-out reverse;
+  -webkit-animation: slide-right 0.5s ease-out reverse;
+} */
+
+.container {
+  width: 100%;
+}
+
+#header {
+  display: flex;
+  flex-direction: column;
+
+  background-color: white;
+  display: flex;
+  width: 100%;
+}
+
+.top-bar {
+  width: 100%;
+  height: 30px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  border-bottom: 2px solid lightgray;
+}
+
+.logo {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 15px 0;
+  gap: 8px;
+}
+
+.logo img {
+  width: 60px;
+}
+
+.brand {
+  font-family: Cambria, Cochin, Georgia, Times, "Times New Roman", serif;
+  font-size: 34px;
+  font-weight: 500;
+  background: orangered;
+  background: linear-gradient(0deg, gray 20%, black 50%, gray 80%);
+  -webkit-background-clip: text;
+  color: transparent;
+}
+
+ul {
+  display: flex;
+}
+
+.navbar {
+  position: absolute;
+  top: 40px;
+  right: 0;
+
+  flex-direction: column;
+
+  text-align: right;
+  gap: 20px;
+  padding: 20px 40px;
+
+  font-size: 2em;
+  color: gray;
+
+  background-color: white;
+  z-index: 2;
+}
+
+.navbar a {
+  color: gray;
+}
+
+.login a {
+  color: rgb(172, 172, 172);
+}
+
+.hidden {
+  display: none;
+}
+
+.slogan {
+  display: none;
+  justify-content: center;
+  padding: 8px;
+  border-top: 1px solid lightgray;
+  border-bottom: 1px solid lightgray;
+
+  font-size: 1.1em;
+  color: gray;
+}
+
+/* Blurer */
+
+.blurer {
+  position: absolute;
+  width: 100%;
+  top: 30px;
+  left: 0;
+  /* /*background-color: #ffffffcc; */
+
+  height: 100vh;
+
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+
+  z-index: 1;
+}
+
+/* Sección Favoritos */
+
+/* Portada */
+
+#portada {
+  /* background-image: url("./img/massa.avif"); */
+  background-position: center;
+  background-size: cover;
+  height: 280px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  text-align: center;
+}
+
+.portada-title {
+  background-color: #000000aa;
+  color: white;
+  box-shadow: 0 0 10px 10px #000000aa;
+  padding: 8px 10%;
+  border: 0;
+}
+
+.more {
+  display: flex;
+  justify-content: center;
+  margin: 10px 0 8px 0;
+  width: 100%;
+  background: linear-gradient(180deg, lightgray, white);
+  font-size: 18px;
+  box-shadow: 0 -2px 2px lightgray;
+}
+
+/* Articulos */
+
+.article {
+  padding: 4px 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  border-bottom: 1px solid gray;
+}
+
+.article img {
+  width: 100%;
+  max-width: 350px;
+  padding: 4px;
+  border: 1px solid #eee;
+}
+
+.text {
+  display: flex;
+  flex-direction: column;
+  padding: 0 8px;
+  gap: 8px;
+}
+
+.article-title {
+  padding: 8px 0;
+  color: #555;
+}
+
+.article-content {
+  font-size: 18px;
+  font-weight: 100;
+}
+
+/* Footer */
+
+.footer {
+  position: relative;
+  top: -1px;
+  background: rgb(204, 204, 204);
+  background: linear-gradient(
+    0deg,
+    rgba(224, 224, 224, 1) 0%,
+    rgba(248, 248, 248, 1) 50%,
+    rgba(224, 224, 224, 1) 100%
+  );
+  display: flex;
+  flex-direction: column;
+  /* justify-content: space-between; */
+  align-items: center;
+  padding: 8vmin;
+  gap: 2vh;
+  text-align: center;
+  box-shadow: 0 -2px 5px lightgray;
+}
+
+.footer h3 {
+  margin: 14px;
+}
+
+.logo-footer {
+  width: auto;
+  height: 60px;
+  display: flex;
+  gap: 8px;
+  /* flex-direction: column; */
+  align-items: center;
+}
+
+.logo-footer img {
+  height: 100%;
+}
+
+.brand-footer {
+  font-family: Cambria, Cochin, Georgia, Times, "Times New Roman", serif;
+  font-weight: 500;
+  font-size: 34px;
+  background: rgb(0, 0, 0);
+  background: linear-gradient(
+    0deg,
+    rgba(0, 0, 0, 1) 20%,
+    rgba(50, 50, 50, 1) 50%,
+    rgba(0, 0, 0, 1) 80%
+  );
+  -webkit-background-clip: text;
+  color: transparent;
+}
+
+#about-us {
+  width: 300px;
+}
+
+.contact-list {
+  display: flex;
+  flex-direction: column;
+}

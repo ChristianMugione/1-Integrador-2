@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+  <link rel="stylesheet" href="./assets/styles.css">
+  <link rel="stylesheet" href="./assets/mediaqueries.css">
+  <link rel="stylesheet" href="./assets/animations.css">
+  <link rel="apple-touch-icon" sizes="180x180" href="./assets/img/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="./assets/img/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="./assets/img/favicon-16x16.png">
+
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <title>Digital 365 | Todas las Noticias al momento</title>
+</head>
+
+<body class="container">
+  <header id="header">
+    <div class="top-bar">
+      <span class="date-now">fecha</span>
+      <i class="bi bi-list" id="toggle-menu"></i>
+      <ul class="navbar hidden">
+        <li class="category"><a href="#" data-id="pais">País</a></li>
+        <li class="category"><a href="#" data-id="mundo">Mundo</a></li>
+        <li class="category"><a href="#" data-id="economia">Economía</a></li>
+        <li class="category"><a href="#" data-id="deportes">Deportes</a></li>
+        <li class="category"><a href="#" data-id="espectaculos">Espectáculos</a></li>
+
+        <li class="login"><a href="#">Ingreso</a></li>
+
+        <li class="fav"><i class="bi bi-star-fill" id="favorite"></i></li>
+      </ul>
+
+
+    </div>
+    <div class="logo">
+      <img src="./assets/img/globe.svg" alt="Logo de Digital 365">
+      <p class="brand">DIGITAL 365</p>
+    </div>
+    <span class="slogan">Estás acá. Te estás informando.</span>
+  </header>
+  <div class="blurer hidden"></div>
+  <div class="favorites" id="fav-section"></div>
+  <section id="portada"></section>
+  <div class="more"></div>
+  <section id="news-section">
+    <!-- <article class="article">
+      <img src="./assets/img/messi.avif" alt="Messi">
+      <div class="text">
+        <h2 class="article-title">Messi se tiró por el tobogán de la verdulería</h2>
+        <p class="article-content">Lorem ipsum dolor sit amet consectetur adipisicing elit. Praesentium officiis,
+          impedit, dolorum eveniet
+          cupiditate temporibus, eius veniam aspernatur distinctio enim unde delectus non! Nihil cumque nesciunt nemo
+          rerum iusto repellendus.</p>
+      </div>
+    </article> -->
+
+  </section>
+  <footer class="footer">
+    <div class="logo-footer">
+      <img src="./assets/img/globe.svg" alt="Logo Digital 365">
+      <p class="brand-footer">DIGITAL 365</p>
+    </div>
+    <section id="about-us">
+      <h3>Sobre Nosotros</h3>
+      <p>Bienvenidos a Digital 365, tu fuente confiable de información. Nos dedicamos a brindarte noticias frescas,
+        análisis profundos y tendencias actuales, las 24 horas del día, los 365 días del año. Únete a nosotros
+        mientras
+        nos informamos juntos.</p>
+    </section>
+    <section id="contact">
+      <h3>Contacto</h3>
+      <ul class="contact-list">
+        <li>Thompson 333, Bahía Blanca</li>
+        <li>(291) 455 8324</li>
+        <li>info@digital365.com.ar</li>
+        <li>Twitter: @digital365</li>
+      </ul>
+    </section>
+  </footer>
+</body>
+<script src="./assets/data.js"></script>
+<script src="./assets/main.js"></script>
+<script src="./assets/menu.js"></script>
+
+</html>
