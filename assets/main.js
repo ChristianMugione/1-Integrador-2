@@ -210,9 +210,10 @@ async function init() {
 //init();
 
 //inicio prueba
-fetch("https://prueba-backend-node-zvua-dev.fl0.io/api/noticias")
-  .then((data) => data.json)
-  .then((datajson) => console.log(datajson.json));
+fetch("https://prueba-backend-node-zvua-dev.fl0.io/api/noticias").then(
+  (data) => data.json
+);
+console.log(datajson);
 //fin prueba
 
 /*
