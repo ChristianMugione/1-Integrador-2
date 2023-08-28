@@ -1,14 +1,17 @@
 //Fecha y hora actual
 const timeNow = new Date();
-const dateNow = document.querySelector(".date-now");
-dateNow.textContent =
-  timeNow.getDate() +
-  "/" +
-  (parseInt(timeNow.getMonth()) + 1).toString().padStart(2, "0") +
-  " - " +
-  timeNow.getHours() +
-  ":" +
-  timeNow.getMinutes().toString().padStart(2, "0");
+
+const printDate = () => {
+  const dateNow = document.querySelector(".date-now");
+  dateNow.textContent =
+    timeNow.getDate() +
+    "/" +
+    (parseInt(timeNow.getMonth()) + 1).toString().padStart(2, "0") +
+    " - " +
+    timeNow.getHours() +
+    ":" +
+    timeNow.getMinutes().toString().padStart(2, "0");
+};
 
 const favSection = document.getElementById("fav-section");
 
@@ -22,72 +25,32 @@ const readLocalStorage = () => {
 };
 
 async function readApi() {
-  const API_URL =
-    "https://newsdata.io/api/1/news?apikey=pub_27921c916701693133b94c32405cb715e3149&q=argentina";
-  const API_URL2 =
-    "https://newsapi.org/v2/everything?q=argentina+deporte&language=es&apiKey=58778fb97acc434bb869d640ffff77d0";
-  const news = await fetch(API_URL);
+  const API_URL = "http://localhost:3000/api/noticias";
 
-  const newsJason = await news.json();
-  console.log(newsJason);
-  const results = newsJason.results;
-
-  newsStringifieds = JSON.stringify(results);
-  localStorage.setItem("noticias", newsStringifieds);
-  localStorage.setItem("noticiasFecha", Date.now());
-
-  return results;
-
-  /**deportes (Arg)
-   * https://newsdata.io/api/1/news?apikey=pub_27921c916701693133b94c32405cb715e3149&q=deportes&country=ar
-   *
-   *
-   */
-}
-
-async function readApiByCategory() {
-  //Argentina: "https://newsdata.io/api/1/news?apikey=pub_27921c916701693133b94c32405cb715e3149&country=ar&language=es&category=politics"
-  //Mundo: "https://newsdata.io/api/1/news?apikey=pub_27921c916701693133b94c32405cb715e3149&country=ar&language=es&category=world "
-  //Economia: "https://newsdata.io/api/1/news?apikey=pub_27921c916701693133b94c32405cb715e3149&country=ar&language=es&category=business "
-  //Deportes: "https://newsdata.io/api/1/news?apikey=pub_27921c916701693133b94c32405cb715e3149&q=deportes&country=ar&language=es"
-  //Espectaculos: "https://newsdata.io/api/1/news?apikey=pub_27921c916701693133b94c32405cb715e3149&country=ar&language=es&category=entertainment "
-
-  //Leo Api
-  const news = await fetch(
-    "https://newsdata.io/api/1/news?apikey=pub_27921c916701693133b94c32405cb715e3149&q=argentina"
-  );
-
-  //Obtengo Json
-  const newsJason = await news.json();
-
-  //Obtengo resultados
-  const results = newsJason.results;
-
-  //results debe ser un array de objetos-noticias
-
-  //Obtener resultados filtrados. Solo image_url, title, content y agregar category
-
-  newsStringifieds = JSON.stringify(results);
-  localStorage.setItem("noticias", newsStringifieds);
-  localStorage.setItem("noticiasFecha", Date.now());
-
-  return results;
-
-  /**deportes (Arg)
-   * https://newsdata.io/api/1/news?apikey=pub_27921c916701693133b94c32405cb715e3149&q=deportes&country=ar
-   *
-   *
-   */
+  return fetch("http://localhost:3000/api/noticias")
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+      return response.json(); // Aquí convertimos el cuerpo a JSON
+    })
+    .then((data) => {
+      console.log("aaa", data); // Aquí puedes trabajar con los datos JSON
+      return data;
+    })
+    .catch((error) => {
+      console.error("Fetch error:", error);
+    });
 }
 
 async function readNews() {
   newsDate = localStorage.getItem("noticiasFecha");
-  const noCheckTimeNews = true;
+  const noCheckTimeNews = false; //En TRUE evita chequear si son antiguas las notis guardadas en LS
   let response;
   //Compruebo si hay algo en LS
   if (newsDate) {
     //Compruebo si lo que se encuentra en LS tiene más de un día
-    //                            (la API tiene un limite de lecturas diarias)
+    //(la API que leía originalmente tiene un limite de lecturas diarias)
     if (Date.now() - newsDate > 24 * 60 * 60 * 1000 || noCheckTimeNews) {
       //Vuelvo a leer la API porque las noticias del LS tienen más de una hora
       response = await readApi();
@@ -159,10 +122,11 @@ const printHero = (newsObj) => {
   heroSection.appendChild(templateHero(newsObj[0].title));
 };
 
-const printNews = (newsObj) => {
+function printNews(newsObj) {
+  console.log(newsObj);
   const newsSection = document.getElementById("news-section");
   newsSection.innerHTML = newsHTML(newsObj);
-};
+}
 
 const closeHeroIfIsOpen = () => {
   const heroSection = document.getElementById("portada");
@@ -195,11 +159,15 @@ const toggleFavSection = () => {
 };
 
 async function init() {
-  //newsObj = await readNews();
-  //console.log(newsObj);
-  newsObj = [...dataNotis];
-  printHero(newsObj);
-  printNews(newsObj);
+  printDate();
+
+  try {
+    const newsObj = await readApi();
+    printHero(newsObj);
+    printNews(newsObj);
+  } catch (error) {
+    console.error("Error:", error);
+  }
 
   const categoriesBtns = document.querySelector(".navbar");
   categoriesBtns.addEventListener("click", categoryFilter);
@@ -207,13 +175,13 @@ async function init() {
   favBtn.addEventListener("click", toggleFavSection);
 }
 
-//init();
+init();
 
 //inicio prueba
-fetch("https://prueba-backend-node-zvua-dev.fl0.io/api/noticias").then(
-  (data) => data.json
-);
-console.log(datajson);
+/*fetch("https://prueba-backend-node-zvua-dev.fl0.io/api/noticias") //
+  .then((data) => data.json()) //
+  .then((datajson) => console.log(datajson[1].nombre));
+*/
 //fin prueba
 
 /*
