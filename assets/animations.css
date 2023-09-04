@@ -1,16 +1,16 @@
-@keyframes slide-right {
+@keyframes rotate {
   from {
-    transform: translateX(200px);
-    -webkit-transform: translateX(200px);
-    -moz-transform: translateX(200px);
-    -ms-transform: translateX(200px);
-    -o-transform: translateX(200px);
+    transform: rotate(0);
+    -webkit-transform: rotate(0);
+    -moz-transform: rotate(0);
+    -ms-transform: rotate(0);
+    -o-transform: rotate(0);
   }
   to {
-    transform: translateX(0);
-    -webkit-transform: translateX(0);
-    -moz-transform: translateX(0);
-    -ms-transform: translateX(0);
-    -o-transform: translateX(0);
+    transform: rotate(360deg);
+    -webkit-transform: rotate(360deg);
+    -moz-transform: rotate(360deg);
+    -ms-transform: rotate(360deg);
+    -o-transform: rotate(360deg);
   }
 }

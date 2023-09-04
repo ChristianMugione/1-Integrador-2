@@ -1,0 +1,79 @@
+body {
+  display: flex;
+  justify-content: center;
+  font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
+  font-size: 18px;
+}
+
+.container {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  padding-bottom: 40px;
+  width: 80%;
+
+  border: 1px solid gray;
+  border-radius: 8px;
+  -webkit-border-radius: 8px;
+  -moz-border-radius: 8px;
+  -ms-border-radius: 8px;
+  -o-border-radius: 8px;
+
+  box-shadow: 2px 2px 5px gray;
+}
+
+#login-form,
+#register-form {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+#login-form input,
+#register-form input {
+  border: 1px solid gray;
+  padding: 5px;
+
+  border-radius: 8px;
+  -moz-border-radius: 8px;
+  -ms-border-radius: 8px;
+  -o-border-radius: 8px;
+  -webkit-border-radius: 8px;
+}
+
+#login-form [type="button"],
+#register-form [type="button"] {
+  margin-top: 20px;
+  width: 300px;
+  font-size: 16px;
+
+  background: linear-gradient(to bottom, lightgray, gray);
+  border: 1px solid lightgray;
+  box-shadow: 2px 2px 3px gray;
+
+  color: black;
+}
+
+#login-form [type="button"]:active,
+#register-form [type="button"]:active {
+  box-shadow: 0 0 3px gray;
+}
+
+#login-form [type="button"]:hover,
+#register-form [type="button"]:hover {
+  background: linear-gradient(to bottom, gray, black);
+  color: white;
+}
+
+.backBtn {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+}
+
+.backBtn a {
+  font-size: 16px;
+  text-decoration: none;
+}

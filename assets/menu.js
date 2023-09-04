@@ -4,6 +4,7 @@ const blurer = document.querySelector(".blurer");
 const category = document.querySelectorAll(".category");
 
 const toggleMenuDisplayed = () => {
+  console.log("toggleMenuDisplayed");
   if (navBar.classList.contains("hidden")) {
     navBar.classList.remove("hidden");
     blurer.classList.remove("hidden");
@@ -20,5 +21,5 @@ const closeIfDisplayed = () => {
 };
 
 toggleMenu.addEventListener("click", toggleMenuDisplayed);
-window.addEventListener("scroll", closeIfDisplayed);
+//window.addEventListener("scroll", closeIfDisplayed);
 blurer.addEventListener("click", closeIfDisplayed);

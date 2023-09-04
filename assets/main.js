@@ -1,27 +1,54 @@
-//Fecha y hora actual
+//Declaración de variables
 const timeNow = new Date();
+let newsObj = [];
+//number la voy a usar para diferenciar los id de las noticias para que tengan id unico
+let number = 1;
+let arrayNews = [];
+let favNews = [];
 
 const printDate = () => {
+  const month = [
+    "Ene",
+    "Feb",
+    "Mar",
+    "Abr",
+    "May",
+    "Jun",
+    "Jul",
+    "Ago",
+    "Sep",
+    "Oct",
+    "Nov",
+    "Dic",
+  ];
   const dateNow = document.querySelector(".date-now");
   dateNow.textContent =
     timeNow.getDate() +
-    "/" +
-    (parseInt(timeNow.getMonth()) + 1).toString().padStart(2, "0") +
-    " - " +
+    " " +
+    month[timeNow.getMonth()] +
+    ", " +
+    timeNow.getFullYear();
+  " | " +
     timeNow.getHours() +
     ":" +
     timeNow.getMinutes().toString().padStart(2, "0");
 };
 
+const categoriesBtns = document.querySelector(".navbar");
 const favSection = document.getElementById("fav-section");
-
-//Declaración de variables
-let newsObj = [];
+const favBtn = document.getElementById("favorite");
 
 const readLocalStorage = () => {
   newsStringified = localStorage.getItem("noticias");
   //newsObj = JSON.parse(newsStringified);
   return JSON.parse(newsStringified);
+};
+
+const saveLocalStorage = (newsToSave) => {
+  localStorage.setItem("noticias", newsToSave);
+  //guardar objeto notis
+  //guardar fecha actual
+  localStorage.setItem("noticiasFecha", Date.now());
 };
 
 async function readApi() {
@@ -32,10 +59,9 @@ async function readApi() {
       if (!response.ok) {
         throw new Error("Network response was not ok");
       }
-      return response.json(); // Aquí convertimos el cuerpo a JSON
+      return response.json();
     })
     .then((data) => {
-      console.log("aaa", data); // Aquí puedes trabajar con los datos JSON
       return data;
     })
     .catch((error) => {
@@ -45,14 +71,15 @@ async function readApi() {
 
 async function readNews() {
   newsDate = localStorage.getItem("noticiasFecha");
-  const noCheckTimeNews = false; //En TRUE evita chequear si son antiguas las notis guardadas en LS
+  const noCheckTimeNews = true; //'true' fuerza a leer la API aunque las noticias guardadas en LS sean nuevas
   let response;
   //Compruebo si hay algo en LS
   if (newsDate) {
-    //Compruebo si lo que se encuentra en LS tiene más de un día
+    //Compruebo si lo que se encuentra en LS tiene cierto tiempo
     //(la API que leía originalmente tiene un limite de lecturas diarias)
-    if (Date.now() - newsDate > 24 * 60 * 60 * 1000 || noCheckTimeNews) {
+    if (Date.now() - newsDate > 60 * 1000 || noCheckTimeNews) {
       //Vuelvo a leer la API porque las noticias del LS tienen más de una hora
+      console.log("Utilizo las notis de la API");
       response = await readApi();
     } else {
       console.log("Utilizo las notis del LS");
@@ -63,7 +90,7 @@ async function readNews() {
     console.log("Leo API porque LS vacío");
     response = await readApi();
   }
-
+  saveLocalStorage(JSON.stringify(response));
   return response;
 }
 
@@ -82,14 +109,26 @@ const limitString = (stringToLimit, stringLength) => {
   return stringLimited;
 };
 
-const templateArticle = (imageUrl, title, content) => {
+const templateArticle = (imageUrl, title, content, category) => {
+  //Proceso la noticia solo si tiene imagen. En la API que utilicé al principio, algunas noticias no tenían.
   if (imageUrl) {
+    number++;
+    dataId = number + Date.now();
+    thisNews = {
+      id: dataId,
+      imageUrl: imageUrl,
+      title: title,
+      content: content,
+      category: category,
+    };
+    arrayNews.push(thisNews);
     return `
     <article class="article">
-    <img src="${imageUrl}" alt="${limitString(title, 20)}">
+    <img src="${imageUrl}" alt="${limitString(title, 10)}">
     <div class="text">
     <h2 class="article-title">${title.toUpperCase()}</h2>
-    <p class="article-content">${limitString(content, 200)}</p>        
+    <p class="article-content">${limitString(content, 180)}...</p>        
+    <i class="bi bi-plus-circle add-news" data-id="${dataId}"></i>
     </div>
     </article>`;
   } else {
@@ -110,7 +149,12 @@ const newsHTML = (newsObj) => {
     newsObj.forEach((element) => {
       outputHTML =
         outputHTML +
-        templateArticle(element.image_url, element.title, element.content);
+        templateArticle(
+          element.image_url,
+          element.title,
+          element.content,
+          element.category
+        );
     });
   }
   return outputHTML;
@@ -123,7 +167,7 @@ const printHero = (newsObj) => {
 };
 
 function printNews(newsObj) {
-  console.log(newsObj);
+  //console.log(newsObj);
   const newsSection = document.getElementById("news-section");
   newsSection.innerHTML = newsHTML(newsObj);
 }
@@ -136,61 +180,155 @@ const closeHeroIfIsOpen = () => {
 };
 
 const categoryFilter = (e) => {
-  toggleMenuDisplayed();
-  closeHeroIfIsOpen();
-  let newsFiltered = newsObj.filter(
-    (obj) => obj.category === e.target.dataset.id
-  );
-  printNews(newsFiltered);
-};
-
-const favMenuIsOpen = () => {
-  return !favSection.classList.contains("hidden");
-};
-
-const toggleFavSection = () => {
-  if (favMenuIsOpen) {
-    //close menu
-    favSection.classList.add("hidden");
+  if (e.target.dataset.id) {
+    toggleMenuDisplayed();
+    closeHeroIfIsOpen();
+    let newsFiltered = newsObj.filter(
+      (obj) => obj.category === e.target.dataset.id
+    );
+    printNews(newsFiltered);
+    console.log("Se filtraron las noticias");
   } else {
-    //open menu
-    favSection.classList.remove("hidden");
+    console.log("No se filtraron las noticias");
   }
 };
 
+const favMenuIsOpen = () => {
+  return !favSection.classList.contains("open-favs");
+};
+
+const closeNavBar = () => {
+  if (!categoriesBtns.classList.contains("hidden")) {
+    toggleMenuDisplayed();
+  }
+};
+
+const toggleFavSection = () => {
+  if (favMenuIsOpen()) {
+    closeNavBar();
+    favSection.classList.add("open-favs");
+  } else {
+    //open menu
+    favSection.classList.remove("open-favs");
+  }
+};
+
+const loadFavsFromLocalStorage = () => {
+  return JSON.parse(localStorage.getItem("noticiasFav")) || [];
+};
+
+const saveFavsToLocalStorage = (favs) => {
+  localStorage.setItem("noticiasFav", JSON.stringify(favs));
+};
+
+const favCount = () => {
+  const newsFav = localStorage.getItem("noticiasFav");
+  if (newsFav) {
+    return JSON.parse(localStorage.getItem("noticiasFav")).length;
+  } else {
+    return 0;
+  }
+};
+
+const printFavNumber = () => {
+  const number = favCount();
+  favBtn.innerHTML = "";
+  favBtn.innerHTML = `<span class="fav-number">${number}</span>`;
+};
+
+const addNewsToFavs = (e) => {
+  const idOfSelectedNews = Number(e.target.dataset.id);
+  //comprobar que esa ID no esté guardada de antes
+  if (!favNews.some((news) => news.id === idOfSelectedNews)) {
+    const newsFinded = arrayNews.find((news) => news.id == idOfSelectedNews);
+    favNews.push(newsFinded);
+    saveFavsToLocalStorage(favNews);
+    printFavNumber();
+  }
+};
+
+const removeNewsFromFavs = (e) => {
+  const newFavNews = favNews.filter((news) => news.id != e.target.dataset.id);
+  favNews = [...newFavNews];
+  createFavSection(favNews);
+  saveFavsToLocalStorage(favNews);
+  printFavNumber();
+};
+
+function createFavSection(favNews) {
+  //arma el html
+  const favSectionHTML =
+    `
+  <h2 class="section-fav-title">Sus Noticias Guardadas</h2>
+  <i class="bi bi-x-circle fav-close-button"></i>
+  ` +
+    favNews
+      .map((news) => {
+        return `
+      <article class="fav-article">
+        <img src="${news.imageUrl}" alt="${limitString(news.title, 30)}" />
+        <div class="fav-text">
+          <h3 class="fav-title">${news.title.toUpperCase()}</h3>
+          <p class="fav-content">${limitString(news.content, 300)}</p>
+          <i class="bi bi-dash-circle add-news" data-id="${news.id}"></i>
+        </div>
+      </article>
+      `;
+      })
+      .join("");
+
+  favSection.innerHTML = "";
+  favSection.innerHTML = favSectionHTML;
+  const favCloseButton = document.querySelector(".fav-close-button");
+  favCloseButton.addEventListener("click", toggleFavSection);
+  const rmvNews = document.querySelectorAll(".add-news");
+  rmvNews.forEach((btn) => {
+    btn.addEventListener("click", removeNewsFromFavs);
+  });
+}
+
 async function init() {
   printDate();
+  printFavNumber();
 
   try {
-    const newsObj = await readApi();
+    newsObj = await readNews();
     printHero(newsObj);
     printNews(newsObj);
+    const addNews = document.querySelectorAll(".add-news");
+    addNews.forEach((btn) => {
+      btn.addEventListener("click", addNewsToFavs);
+    });
   } catch (error) {
     console.error("Error:", error);
   }
 
-  const categoriesBtns = document.querySelector(".navbar");
   categoriesBtns.addEventListener("click", categoryFilter);
-  const favBtn = document.getElementById("favorite");
   favBtn.addEventListener("click", toggleFavSection);
+
+  document.addEventListener("keydown", (e) => {
+    if (e.key == "Escape") {
+      favSection.classList.remove("open-favs");
+
+      toggleMenuDisplayed();
+    }
+  });
+
+  window.addEventListener("scroll", closeIfDisplayed);
+
+  favNews = loadFavsFromLocalStorage();
+
+  createFavSection(favNews);
 }
 
-init();
+document.addEventListener("DOMContentLoaded", init);
 
-//inicio prueba
-/*fetch("https://prueba-backend-node-zvua-dev.fl0.io/api/noticias") //
-  .then((data) => data.json()) //
-  .then((datajson) => console.log(datajson[1].nombre));
-*/
-//fin prueba
-
+//openweathermap.org
 /*
 - noticias favoritas (con localstorage).
-
+-- burbuja con cantidad de notis favoritas
 - una página de login y de registro, desde las cuales se deberá poder volver a la página principal.
 (no piden funcionalidad pero se la puedo agregar mediante el sessionstorage o como sea que se llame)
-
-👉 API de Noticias
 
 👉 Github y Vercel.
 
