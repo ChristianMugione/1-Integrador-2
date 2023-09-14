@@ -7,7 +7,7 @@
 }
 
 body {
-  font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
+  font-family: Roboto, Verdana, Geneva, Tahoma, sans-serif;
   font-size: 14px;
 }
 
@@ -50,7 +50,7 @@ body {
   font-family: Cambria, Cochin, Georgia, Times, "Times New Roman", serif;
   font-size: 34px;
   font-weight: 500;
-  background: orangered;
+  background: black;
   background: linear-gradient(0deg, gray 20%, black 50%, gray 80%);
   -webkit-background-clip: text;
   color: transparent;
@@ -92,7 +92,7 @@ ul {
 }
 
 .slogan {
-  display: none;
+  display: flex;
   justify-content: center;
   padding: 8px;
   border-top: 1px solid lightgray;

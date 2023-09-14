@@ -265,11 +265,11 @@ function createFavSection(favNews) {
     favNews
       .map((news) => {
         return `
-      <article class="fav-article">
+      <article class="article">
         <img src="${news.imageUrl}" alt="${limitString(news.title, 30)}" />
-        <div class="fav-text">
-          <h3 class="fav-title">${news.title.toUpperCase()}</h3>
-          <p class="fav-content">${limitString(news.content, 300)}</p>
+        <div class="text">
+          <h2 class="article-title">${news.title.toUpperCase()}</h2>
+          <p class="article-content">${limitString(news.content, 300)}</p>
           <i class="bi bi-dash-circle add-news" data-id="${news.id}"></i>
         </div>
       </article>
