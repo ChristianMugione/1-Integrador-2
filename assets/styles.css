@@ -9,10 +9,20 @@
 body {
   font-family: Roboto, Verdana, Geneva, Tahoma, sans-serif;
   font-size: 14px;
+  background-color: lightgrey;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
 }
 
 .container {
   width: 100%;
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
 }
 
 #header {
@@ -81,6 +91,16 @@ ul {
 
 .navbar a {
   color: gray;
+}
+
+.navbar a:hover {
+  color: black;
+}
+
+.active {
+  border: 1px solid gray;
+  padding: 2px 4px;
+  border-radius: 8px;
 }
 
 .login a {
@@ -188,13 +208,13 @@ ul {
 .fav-close-button {
   position: absolute;
   top: 8px;
-  right: 8px;
-  font-size: 1.2em;
+  right: 18px;
+  font-size: 1.8em;
 }
 
 .fav-article {
   display: flex;
-  /* display: none; */
+
   flex-direction: row;
   justify-content: flex-start;
   align-items: flex-start;
@@ -219,10 +239,19 @@ ul {
   width: 90%;
 }
 
+.fav-clear {
+  margin: 20px 10px 80px 10px;
+  border: 1px solid gray;
+  border-radius: 8px;
+  text-align: center;
+  padding: 4px;
+  box-shadow: 1px 1px 2px 1px gray;
+  cursor: pointer;
+}
+
 /* Portada */
 
 #portada {
-  /* background-image: url("./img/massa.avif"); */
   background-position: center;
   background-size: cover;
   height: 280px;
@@ -233,9 +262,9 @@ ul {
 }
 
 .portada-title {
-  background-color: #000000aa;
+  background-color: #000000cc;
   color: white;
-  box-shadow: 0 0 10px 10px #000000aa;
+  /* box-shadow: 0 0 10px 10px #000000aa; */
   padding: 8px 10%;
   border: 0;
 }
@@ -295,6 +324,7 @@ ul {
 
 .text i {
   text-align: right;
+  cursor: pointer;
 }
 
 /* Footer */

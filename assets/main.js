@@ -52,12 +52,12 @@ const saveLocalStorage = (newsToSave) => {
 };
 
 async function readApi() {
-  const API_URL = "http://localhost:3000/api/noticias";
+  const API_URL = "https://digital360-backend-dev.fl0.io/api/noticias";
 
-  return fetch("http://localhost:3000/api/noticias")
+  return fetch(API_URL)
     .then((response) => {
       if (!response.ok) {
-        throw new Error("Network response was not ok");
+        throw new Error("Error al leer la API");
       }
       return response.json();
     })
@@ -110,30 +110,28 @@ const limitString = (stringToLimit, stringLength) => {
 };
 
 const templateArticle = (imageUrl, title, content, category) => {
-  //Proceso la noticia solo si tiene imagen. En la API que utilicé al principio, algunas noticias no tenían.
-  if (imageUrl) {
-    number++;
-    dataId = number + Date.now();
-    thisNews = {
-      id: dataId,
-      imageUrl: imageUrl,
-      title: title,
-      content: content,
-      category: category,
-    };
-    arrayNews.push(thisNews);
-    return `
-    <article class="article">
-    <img src="${imageUrl}" alt="${limitString(title, 10)}">
-    <div class="text">
-    <h2 class="article-title">${title.toUpperCase()}</h2>
-    <p class="article-content">${limitString(content, 180)}...</p>        
-    <i class="bi bi-plus-circle add-news" data-id="${dataId}"></i>
-    </div>
-    </article>`;
-  } else {
-    return "";
+  number++;
+  dataId = number + Date.now();
+  if (!imageUrl) {
+    imageUrl = "./assets/img/imagen-no-disponible.png";
   }
+  thisNews = {
+    id: dataId,
+    imageUrl: imageUrl,
+    title: title,
+    content: content,
+    category: category,
+  };
+  arrayNews.push(thisNews);
+  return `
+    <article class="article">
+      <img src="${imageUrl}" alt="${limitString(title, 10)}">
+      <div class="text">
+        <h2 class="article-title">${title.toUpperCase()}</h2>
+        <p class="article-content">${limitString(content, 180)}...</p>        
+        <i class="bi bi-plus-circle add-news" data-id="${dataId}"></i>
+      </div>
+    </article>`;
 };
 
 const templateHero = (title) => {
@@ -188,6 +186,15 @@ const categoryFilter = (e) => {
     );
     printNews(newsFiltered);
     console.log("Se filtraron las noticias");
+    const cat = document.querySelectorAll(".category");
+    cat.forEach((cat) => {
+      console.log(cat.children[0].dataset.id);
+      if (cat.children[0].dataset.id === e.target.dataset.id) {
+        cat.classList.add("active");
+      } else {
+        cat.classList.remove("active");
+      }
+    });
   } else {
     console.log("No se filtraron las noticias");
   }
@@ -208,7 +215,6 @@ const toggleFavSection = () => {
     closeNavBar();
     favSection.classList.add("open-favs");
   } else {
-    //open menu
     favSection.classList.remove("open-favs");
   }
 };
@@ -255,8 +261,19 @@ const removeNewsFromFavs = (e) => {
   printFavNumber();
 };
 
+const favClearFnc = () => {
+  favNews = [];
+  console.log(favNews);
+  createFavSection(favNews);
+  saveFavsToLocalStorage(favNews);
+  printFavNumber();
+};
+
 function createFavSection(favNews) {
-  //arma el html
+  let favClearBtn = "";
+  if (favNews.length > 1) {
+    favClearBtn = `<p class="fav-clear">Limpiar Favoritos</p>`;
+  }
   const favSectionHTML =
     `
   <h2 class="section-fav-title">Sus Noticias Guardadas</h2>
@@ -265,26 +282,30 @@ function createFavSection(favNews) {
     favNews
       .map((news) => {
         return `
-      <article class="article">
+      <article class="fav-article">
         <img src="${news.imageUrl}" alt="${limitString(news.title, 30)}" />
         <div class="text">
           <h2 class="article-title">${news.title.toUpperCase()}</h2>
           <p class="article-content">${limitString(news.content, 300)}</p>
-          <i class="bi bi-dash-circle add-news" data-id="${news.id}"></i>
+          <i class="bi bi-dash-circle del-news" data-id="${news.id}"></i>
         </div>
       </article>
       `;
       })
-      .join("");
-
+      .join("") +
+    favClearBtn;
   favSection.innerHTML = "";
   favSection.innerHTML = favSectionHTML;
   const favCloseButton = document.querySelector(".fav-close-button");
   favCloseButton.addEventListener("click", toggleFavSection);
-  const rmvNews = document.querySelectorAll(".add-news");
+  const rmvNews = document.querySelectorAll(".del-news");
   rmvNews.forEach((btn) => {
     btn.addEventListener("click", removeNewsFromFavs);
   });
+  if (favNews.length > 1) {
+    const favClear = document.querySelector(".fav-clear");
+    favClear.addEventListener("click", favClearFnc);
+  }
 }
 
 async function init() {
@@ -325,14 +346,9 @@ document.addEventListener("DOMContentLoaded", init);
 
 //openweathermap.org
 /*
-- noticias favoritas (con localstorage).
--- burbuja con cantidad de notis favoritas
-- una página de login y de registro, desde las cuales se deberá poder volver a la página principal.
-(no piden funcionalidad pero se la puedo agregar mediante el sessionstorage o como sea que se llame)
+Github y Vercel.
 
-👉 Github y Vercel.
-
-👉 https://checklist-integrador-js.vercel.app/
+https://checklist-integrador-js.vercel.app/
 
 
 */

@@ -81,6 +81,9 @@
   }
 }
 @media (min-width: 992px) {
+  .container {
+    max-width: 960px;
+  }
   .logo {
     padding: 40px;
   }

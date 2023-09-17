@@ -13,6 +13,7 @@ body {
   padding: 20px;
   padding-bottom: 40px;
   width: 80%;
+  max-width: 600px;
 
   border: 1px solid gray;
   border-radius: 8px;
@@ -93,4 +94,7 @@ small {
   font-size: 0.6em;
   color: red;
   text-align: center;
+}
+
+@media (min-width: 576px) {
 }

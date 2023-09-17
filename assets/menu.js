@@ -18,8 +18,10 @@ const closeIfDisplayed = () => {
   if (!navBar.classList.contains("hidden")) {
     toggleMenuDisplayed();
   }
+  if (favSection.classList.contains("open-favs")) {
+    favSection.classList.remove("open-favs");
+  }
 };
 
 toggleMenu.addEventListener("click", toggleMenuDisplayed);
-//window.addEventListener("scroll", closeIfDisplayed);
 blurer.addEventListener("click", closeIfDisplayed);
