@@ -248,6 +248,7 @@ const addNewsToFavs = (e) => {
   if (!favNews.some((news) => news.id === idOfSelectedNews)) {
     const newsFinded = arrayNews.find((news) => news.id == idOfSelectedNews);
     favNews.push(newsFinded);
+    createFavSection(favNews);
     saveFavsToLocalStorage(favNews);
     printFavNumber();
   }
