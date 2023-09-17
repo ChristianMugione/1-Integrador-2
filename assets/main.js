@@ -5,6 +5,7 @@ let newsObj = [];
 let number = 1;
 let arrayNews = [];
 let favNews = [];
+let activeCat = "";
 
 const printDate = () => {
   const month = [
@@ -178,23 +179,32 @@ const closeHeroIfIsOpen = () => {
 };
 
 const categoryFilter = (e) => {
+  //Si la categoría seleccionada es la activa la desactiva
+
   if (e.target.dataset.id) {
-    toggleMenuDisplayed();
-    closeHeroIfIsOpen();
-    let newsFiltered = newsObj.filter(
-      (obj) => obj.category === e.target.dataset.id
-    );
-    printNews(newsFiltered);
-    console.log("Se filtraron las noticias");
-    const cat = document.querySelectorAll(".category");
-    cat.forEach((cat) => {
-      console.log(cat.children[0].dataset.id);
-      if (cat.children[0].dataset.id === e.target.dataset.id) {
-        cat.classList.add("active");
-      } else {
-        cat.classList.remove("active");
-      }
-    });
+    if (e.target.dataset.id === activeCat) {
+      printNews(newsObj);
+      console.log("-----", e.target);
+      e.target.parentElement.classList.remove("active");
+      activeCat = "";
+    } else {
+      activeCat = e.target.dataset.id;
+      toggleMenuDisplayed();
+      closeHeroIfIsOpen();
+      let newsFiltered = newsObj.filter(
+        (obj) => obj.category === e.target.dataset.id
+      );
+      printNews(newsFiltered);
+      console.log("Se filtraron las noticias");
+      const cat = document.querySelectorAll(".category");
+      cat.forEach((cat) => {
+        if (cat.children[0].dataset.id === e.target.dataset.id) {
+          cat.classList.add("active");
+        } else {
+          cat.classList.remove("active");
+        }
+      });
+    }
   } else {
     console.log("No se filtraron las noticias");
   }

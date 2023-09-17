@@ -23,6 +23,7 @@ body {
   flex-direction: column;
   align-items: center;
   position: relative;
+  box-shadow: 0 0 5px -2px gray;
 }
 
 #header {
@@ -99,7 +100,7 @@ ul {
 
 .active {
   border: 1px solid gray;
-  padding: 2px 4px;
+  padding: 2px 1px;
   border-radius: 8px;
 }
 
