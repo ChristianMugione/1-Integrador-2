@@ -329,6 +329,10 @@ ul {
   cursor: pointer;
 }
 
+.text i:hover {
+  color: gray;
+}
+
 /* Footer */
 
 .footer {

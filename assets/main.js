@@ -130,7 +130,7 @@ const templateArticle = (imageUrl, title, content, category) => {
       <div class="text">
         <h2 class="article-title">${title.toUpperCase()}</h2>
         <p class="article-content">${limitString(content, 180)}...</p>        
-        <i class="bi bi-plus-circle add-news" data-id="${dataId}"></i>
+        <i class="bi bi-star add-news" data-id="${dataId}"> Favoritas</i>
       </div>
     </article>`;
 };
