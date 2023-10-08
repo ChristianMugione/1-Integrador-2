@@ -70,31 +70,6 @@ async function readApi() {
     });
 }
 
-async function readNews() {
-  newsDate = localStorage.getItem("noticiasFecha");
-  const noCheckTimeNews = true; //'true' fuerza a leer la API aunque las noticias guardadas en LS sean nuevas
-  let response;
-  //Compruebo si hay algo en LS
-  if (newsDate) {
-    //Compruebo si lo que se encuentra en LS tiene cierto tiempo
-    //(la API que leía originalmente tiene un limite de lecturas diarias)
-    if (Date.now() - newsDate > 60 * 1000 || noCheckTimeNews) {
-      //Vuelvo a leer la API porque las noticias del LS tienen más de una hora
-      console.log("Utilizo las notis de la API");
-      response = await readApi();
-    } else {
-      console.log("Utilizo las notis del LS");
-      //Uso lo que está en LS
-      response = readLocalStorage();
-    }
-  } else {
-    console.log("Leo API porque LS vacío");
-    response = await readApi();
-  }
-  saveLocalStorage(JSON.stringify(response));
-  return response;
-}
-
 const limitString = (stringToLimit, stringLength) => {
   let stringLimited;
   if (stringToLimit) {
@@ -324,7 +299,7 @@ async function init() {
   printFavNumber();
 
   try {
-    newsObj = await readNews();
+    newsObj = await readApi();
     printHero(newsObj);
     printNews(newsObj);
     const addNews = document.querySelectorAll(".add-news");
