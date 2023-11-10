@@ -53,7 +53,7 @@ const saveLocalStorage = (newsToSave) => {
 };
 
 async function readApi() {
-  const API_URL = "https://digital360-backend-dev.fl0.io/api/noticias";
+  const API_URL = "https://digital360.1.us-1.fl0.io/api/noticias";
 
   return fetch(API_URL)
     .then((response) => {
