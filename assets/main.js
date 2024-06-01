@@ -53,7 +53,8 @@ const saveLocalStorage = (newsToSave) => {
 };
 
 async function readApi() {
-  const API_URL = "https://digital360.1.us-1.fl0.io/api/noticias";
+  // const API_URL = "https://digital360.1.us-1.fl0.io/api/noticias";
+  const API_URL = "http://localhost:3000/api/get";
 
   return fetch(API_URL)
     .then((response) => {
@@ -63,6 +64,7 @@ async function readApi() {
       return response.json();
     })
     .then((data) => {
+      console.log("Data recibida: ", data);
       return data;
     })
     .catch((error) => {
@@ -104,7 +106,10 @@ const templateArticle = (imageUrl, title, content, category) => {
       <img src="${imageUrl}" alt="${limitString(title, 10)}">
       <div class="text">
         <h2 class="article-title">${title.toUpperCase()}</h2>
-        <p class="article-content">${limitString(content, 180)}...</p>        
+        <p class="article-content">(${category.toUpperCase()}) ${limitString(
+    content,
+    180
+  )}...</p>        
         <i class="bi bi-star add-news" data-id="${dataId}"> Favoritas</i>
       </div>
     </article>`;
@@ -119,15 +124,17 @@ const templateHero = (title) => {
 
 const newsHTML = (newsObj) => {
   let outputHTML = "";
+  // console.log(newsObj.news);
   if (newsObj) {
-    newsObj.forEach((element) => {
+    newsObj.news.forEach((element) => {
+      console.log(element);
       outputHTML =
         outputHTML +
         templateArticle(
-          element.image_url,
+          element.images[0],
           element.title,
           element.content,
-          element.category
+          element.categories[0]
         );
     });
   }
@@ -135,9 +142,10 @@ const newsHTML = (newsObj) => {
 };
 
 const printHero = (newsObj) => {
+  console.log(newsObj.news[0].images[0]);
   const heroSection = document.getElementById("portada");
-  heroSection.style.backgroundImage = `url("${newsObj[0].image_url}")`;
-  heroSection.appendChild(templateHero(newsObj[0].title));
+  heroSection.style.backgroundImage = `url("${newsObj.news[0].images[0]}")`;
+  heroSection.appendChild(templateHero(newsObj.news[0].title));
 };
 
 function printNews(newsObj) {
@@ -166,10 +174,12 @@ const categoryFilter = (e) => {
       activeCat = e.target.dataset.id;
       toggleMenuDisplayed();
       closeHeroIfIsOpen();
-      let newsFiltered = newsObj.filter(
-        (obj) => obj.category === e.target.dataset.id
+      let newsFiltered = newsObj.news.filter(
+        (obj) => obj.categories[0] === e.target.dataset.id
       );
-      printNews(newsFiltered);
+      const newsFilteredWithNews = { news: newsFiltered };
+      console.log(newsFilteredWithNews);
+      printNews(newsFilteredWithNews);
       console.log("Se filtraron las noticias");
       const cat = document.querySelectorAll(".category");
       cat.forEach((cat) => {

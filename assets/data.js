@@ -123,3 +123,21 @@ const dataNotis = [
     category: "",
   },*/
 ];
+
+// const notiFetch = async (noti) => {
+//   await fetch("http://localhost:3000/api/add", {
+//     method: "POST",
+//     headers: {
+//       "content-type": "application/json",
+//     },
+//     body: JSON.stringify({
+//       title: noti.title,
+//       content: noti.content,
+//       images: [noti.image_url],
+//       categories: [noti.category],
+//       tags: ["default"],
+//     }),
+//   });
+// };
+
+// dataNotis.forEach((noti) => notiFetch(noti));
